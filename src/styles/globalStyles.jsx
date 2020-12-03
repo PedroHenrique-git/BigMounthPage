@@ -1,4 +1,5 @@
-import styled, { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from "styled-components";
+import * as colors from "../config/colors";
 
 export const GlobalStyle = createGlobalStyle`
     * {
@@ -9,12 +10,6 @@ export const GlobalStyle = createGlobalStyle`
     html, body, #root {
         width: 100%;
         height: 100%;
+        background: ${colors.marfim};
     }
-`;
-
-export const Container = styled.section`
-  margin: 50px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
