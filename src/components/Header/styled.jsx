@@ -72,6 +72,9 @@ export const Section = styled.section`
         position: absolute;
         right: 32px;
         top: 84px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         @media (max-width: 640px) {
           right: 90px;

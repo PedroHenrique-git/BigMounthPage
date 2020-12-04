@@ -73,8 +73,21 @@ export const CharacterCard = styled.div`
 `;
 
 export const ButtonsWrap = styled.div`
-  position: absolute;
-  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 20px;
 
-  margin: 40px;
+  button {
+    border-radius: 50%;
+    padding: 20px;
+    height: 100px;
+    width: 100px;
+    margin-right: 80px;
+    border: 1px solid ${colors.laranja};
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+  }
 `;
