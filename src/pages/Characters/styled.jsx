@@ -62,6 +62,19 @@ export const CharacterCard = styled.div`
         margin-right: 14px;
         color: ${colors.marfim};
       }
+
+      button {
+        margin-top: 20px;
+        border: none;
+        color: ${colors.marfim};
+        outline: none;
+        cursor: pointer;
+        background: transparent;
+
+        &:nth-of-type(1) {
+          margin-right: 20px;
+        }
+      }
     }
 
     img {
@@ -80,14 +93,12 @@ export const ButtonsWrap = styled.div`
   margin-bottom: 20px;
 
   button {
-    border-radius: 50%;
     padding: 20px;
-    height: 100px;
-    width: 100px;
-    margin-right: 80px;
-    border: 1px solid ${colors.laranja};
+    outline: none;
+    border: none;
     outline: none;
     background: transparent;
+    color: ${colors.marromClaro};
     cursor: pointer;
   }
 `;

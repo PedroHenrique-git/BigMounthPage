@@ -1,14 +1,20 @@
 import { get } from "lodash";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-// import { GrPrevious, GrNext } from "react-icons/gr";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
 import axios from "../../services/axios";
 import { CharactersContainer, CharacterCard, ButtonsWrap } from "./styled";
-// import Buttons from "../../components/Buttons";
+
+let page = 0;
+let totalPage = 1;
 
 export default function Characters() {
   const [characters, setCharacters] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  toast.configure();
 
   const getData = async (pageNumber) => {
     setIsLoading(false);
@@ -17,7 +23,44 @@ export default function Characters() {
     setIsLoading(true);
   };
 
+  const nextPage = () => {
+    page += 1;
+    getData(page);
+  };
+
+  const prevPage = () => {
+    page -= 1;
+    getData(page);
+  };
+
+  const handleDelete = async (id) => {
+    // eslint-disable-next-line no-restricted-globals
+    if (confirm("Are you really want to delete this character ?")) {
+      try {
+        await axios.delete(`/personagem/${id}`);
+        toast.success("Deleted");
+
+        axios.get("/personagem?limite=9").then((resp) => {
+          totalPage = resp.data.info.totalPages;
+        });
+
+        getData(page);
+      } catch (err) {
+        toast.error(`Error: ${err.message}`);
+      }
+    } else {
+      // eslint-disable-next-line no-useless-return
+      return;
+    }
+  };
+
   useEffect(() => {
+    page = 1;
+
+    axios.get("/personagem?limite=9").then((resp) => {
+      totalPage = resp.data.info.totalPages;
+    });
+
     getData(1);
   }, []);
 
@@ -28,7 +71,7 @@ export default function Characters() {
   return (
     <>
       <CharactersContainer>
-        {characters.map((character) => (
+        {characters.map((character, index) => (
           <CharacterCard key={String(character.name)}>
             <figure>
               <img
@@ -67,29 +110,35 @@ export default function Characters() {
                     ? get(character, "genre")
                     : "Unknown"}
                 </p>
+                <button
+                  type="button"
+                  onClick={() => handleDelete(character.id, index)}
+                >
+                  <AiFillDelete size={30} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDelete(character.id, index)}
+                >
+                  <AiFillEdit size={30} />
+                </button>
               </figcaption>
             </figure>
           </CharacterCard>
         ))}
       </CharactersContainer>
       <ButtonsWrap>
-        <button type="button" onClick={() => getData(1)}>
-          1
+        <button type="button" disabled={page === 1} onClick={() => prevPage()}>
+          <FaArrowAltCircleLeft size={40} />
         </button>
-        <button type="button" onClick={() => getData(2)}>
-          2
-        </button>
-        <button type="button" onClick={() => getData(3)}>
-          3
-        </button>
-        <button type="button" onClick={() => getData(4)}>
-          4
-        </button>
-        <button type="button" onClick={() => getData(5)}>
-          5
+        <button
+          type="button"
+          disabled={page === totalPage || totalPage < page}
+          onClick={() => nextPage()}
+        >
+          <FaArrowAltCircleRight size={40} />
         </button>
       </ButtonsWrap>
-      ;
     </>
   );
 }
