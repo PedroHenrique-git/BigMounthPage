@@ -12,4 +12,4 @@
 <img src="/src/images/desktop_edit_page.png">
 <img src="/src/images/mobile_edit_page.png">
 <img src="/src/images/desktop_individual_page.png">
-<img src="/src/images/mobile.png">
+<img src="/src/images/mobile.png.png">
