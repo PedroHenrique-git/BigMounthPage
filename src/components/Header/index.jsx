@@ -7,7 +7,9 @@ import { Header, Section, Links } from "./styled";
 export default function Cabecalho() {
   return (
     <Header>
-      <img src={logo} alt="" srcSet="" />
+      <Link to="/">
+        <img src={logo} alt="" srcSet="" />
+      </Link>
       <Section>
         <Links>
           <Link to="/">
