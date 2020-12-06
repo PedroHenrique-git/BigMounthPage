@@ -5,15 +5,26 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
+import { BsSearch } from "react-icons/bs";
 import axios from "../../services/axios";
-import { CharactersContainer, CharacterCard, ButtonsWrap } from "./styled";
+import {
+  CharactersContainer,
+  CharacterCard,
+  ButtonsWrap,
+  SearchBar,
+} from "./styled";
 
 let page = 0;
 let totalPage = 1;
 
+axios.get("/personagem?limite=9").then((resp) => {
+  totalPage = resp.data.info.totalPages;
+});
+
 export default function Characters() {
   const [characters, setCharacters] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [nameSearched, setNameSearched] = useState("");
   toast.configure();
 
   const getData = async (pageNumber) => {
@@ -54,6 +65,18 @@ export default function Characters() {
     }
   };
 
+  const searchData = async (e) => {
+    if (nameSearched === "") {
+      getData(1);
+      return;
+    }
+    e.preventDefault();
+    setIsLoading(false);
+    const response = await axios.get(`/personagem?name=${nameSearched}`);
+    setCharacters(response.data.characters);
+    setIsLoading(true);
+  };
+
   useEffect(() => {
     page = 1;
 
@@ -65,11 +88,32 @@ export default function Characters() {
   }, []);
 
   if (!isLoading) {
-    return <h1>Carregando...</h1>;
+    const styleH1 = {
+      textAlign: "center",
+      marginTop: "40px",
+    };
+    return <h1 style={styleH1}>Carregando...</h1>;
   }
 
   return (
     <>
+      <SearchBar>
+        <form onSubmit={searchData}>
+          <label htmlFor="nomePersonagem">
+            <input
+              placeholder="Pesquisar personagem"
+              type="text"
+              name="nomePersonagem"
+              id="nomePersonagem"
+              onChange={(e) => setNameSearched(e.target.value)}
+              value={nameSearched}
+            />
+            <button type="submit">
+              <BsSearch size={30} />
+            </button>
+          </label>
+        </form>
+      </SearchBar>
       <CharactersContainer>
         {characters.map((character, index) => (
           <CharacterCard key={String(character.name)}>
@@ -116,18 +160,15 @@ export default function Characters() {
                 >
                   <AiFillDelete size={30} />
                 </button>
-                <button
-                  type="button"
-                  onClick={() => handleDelete(character.id, index)}
-                >
+                <Link to={`/edit/${character.id}`}>
                   <AiFillEdit size={30} />
-                </button>
+                </Link>
               </figcaption>
             </figure>
           </CharacterCard>
         ))}
       </CharactersContainer>
-      <ButtonsWrap>
+      <ButtonsWrap nameSearched={nameSearched}>
         <button type="button" disabled={page === 1} onClick={() => prevPage()}>
           <FaArrowAltCircleLeft size={40} />
         </button>

@@ -18,6 +18,7 @@ export const CharacterCard = styled.div`
   padding: 10px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 
   &:hover {
     transform: scale3d(1.1, 1.1, 1.1);
@@ -63,7 +64,8 @@ export const CharacterCard = styled.div`
         color: ${colors.marfim};
       }
 
-      button {
+      button,
+      a {
         margin-top: 20px;
         border: none;
         color: ${colors.marfim};
@@ -86,7 +88,7 @@ export const CharacterCard = styled.div`
 `;
 
 export const ButtonsWrap = styled.div`
-  display: flex;
+  display: ${(props) => (props.nameSearched ? "none" : "flex")};
   justify-content: center;
   align-items: center;
   padding: 20px;
@@ -100,5 +102,52 @@ export const ButtonsWrap = styled.div`
     background: transparent;
     color: ${colors.marromClaro};
     cursor: pointer;
+  }
+`;
+
+export const SearchBar = styled.section`
+  background: ${colors.marfimEscuro};
+  padding: 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  form {
+    grid-area: form;
+
+    label {
+      text-decoration: none;
+      font-size: 20px;
+      color: #fff;
+
+      input {
+        height: 40px;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        padding: 5px;
+        font-size: 18px;
+        width: 300px;
+      }
+
+      button {
+        background: transparent;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        position: absolute;
+        left: 56%;
+        top: 17.5%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        @media (max-width: 640px) {
+          left: 73%;
+          top: 31.5%;
+        }
+      }
+    }
   }
 `;

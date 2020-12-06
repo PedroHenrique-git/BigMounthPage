@@ -45,42 +45,4 @@ export const Section = styled.section`
     padding-right: 10px;
     padding-bottom: 20px;
   }
-
-  form {
-    grid-area: form;
-
-    label {
-      text-decoration: none;
-      font-size: 20px;
-      color: #fff;
-
-      input {
-        height: 40px;
-        border-radius: 5px;
-        border: none;
-        outline: none;
-        padding: 5px;
-        font-size: 18px;
-        width: 300px;
-      }
-
-      button {
-        background: transparent;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        position: absolute;
-        right: 32px;
-        top: 84px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        @media (max-width: 640px) {
-          right: 90px;
-          top: 205px;
-        }
-      }
-    }
-  }
 `;
