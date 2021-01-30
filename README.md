@@ -7,7 +7,7 @@
 
 install dependencies: <b>npm run install</b> 
 
-modify files: <b>npm run dev</b>
+mstart project: <b>npm run start</b>
 
 ## Built With
 
